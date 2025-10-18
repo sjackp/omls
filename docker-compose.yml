@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: om-el-momneen-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - om-el-momneen-network
+
+  cloudflare:
+    image: cloudflare/cloudflared:latest
+    container_name: om-el-momneen-cloudflare
+    command: tunnel --no-autoupdate run --token eyJhIjoiOTVkYTc2YzRjZGRiMmNlMDE5ZTAyMTc0ODdiNmQ3ZGUiLCJ0IjoiN2I0ZmFiMjEtNTE0MS00YzJiLWI5ZmYtYTA3ZWVkMTg1MmQ3IiwicyI6IlpXUTBOVGhsWTJVdE1HRmxZUzAwTWpRMkxXRTBNV0l0TkdJNVpXSTVPREl4WmpoayJ9
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - om-el-momneen-network
+
+networks:
+  om-el-momneen-network:
+    driver: bridge
