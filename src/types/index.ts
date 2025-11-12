@@ -76,6 +76,10 @@ export interface ModalContent {
   childPlaceholder: string;
   grade: string;
   gradePlaceholder: string;
+  department: string;
+  departmentPlaceholder: string;
+  departmentArabic: string;
+  departmentLanguages: string;
   email: string;
   emailPlaceholder: string;
   phone: string;

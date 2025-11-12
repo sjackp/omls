@@ -22,6 +22,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     parentName: '',
     childName: '',
     grade: '',
+    department: '',
     email: '',
     phone: '',
   });
@@ -41,7 +42,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   // Don't render if not open
   if (!isOpen) return null;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
@@ -64,6 +65,10 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
     if (!formData.grade.trim()) {
       newErrors.grade = 'Grade/Year is required';
+    }
+
+    if (!formData.department.trim()) {
+      newErrors.department = 'Department is required';
     }
 
     if (!formData.email.trim()) {
@@ -92,18 +97,25 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const res = await fetch('/api/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      
+      if (!res.ok) {
+        throw new Error('Submission failed');
+      }
       
       // Show success message
       alert(content.modal.successMessage);
       
       // Reset form and close modal
-      setFormData({ parentName: '', childName: '', grade: '', email: '', phone: '' });
+      setFormData({ parentName: '', childName: '', grade: '', department: '', email: '', phone: '' });
       setErrors({});
       onClose();
     } catch (error) {
-      alert('An error occurred. Please try again.');
+      alert('An error occurred. Please try again in a moment.');
     } finally {
       setIsSubmitting(false);
     }
@@ -193,6 +205,24 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             />
             {errors.grade && (
               <p className="text-sm text-red-500">{errors.grade}</p>
+            )}
+          </div>
+          
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="department">{content.modal.department}</Label>
+            <select
+              id="department"
+              name="department"
+              value={formData.department}
+              onChange={handleInputChange}
+              className={`h-10 px-3 py-2 rounded-md border bg-white text-sm ${errors.department ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-600`}
+            >
+              <option value="">{content.modal.departmentPlaceholder}</option>
+              <option value="arabic">{content.modal.departmentArabic}</option>
+              <option value="languages">{content.modal.departmentLanguages}</option>
+            </select>
+            {errors.department && (
+              <p className="text-sm text-red-500">{errors.department}</p>
             )}
           </div>
           

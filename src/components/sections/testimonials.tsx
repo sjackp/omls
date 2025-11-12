@@ -9,8 +9,8 @@ export const Testimonials: React.FC = () => {
   const { content } = useLanguage();
   
   const avatars = [
-    "https://i.pravatar.cc/150?img=5", 
-    "https://i.pravatar.cc/150?img=8"
+    "/images/nationalanthemmanonstage.jpeg", 
+    "/images/nationalanthem3.jpeg"
   ];
 
   return (

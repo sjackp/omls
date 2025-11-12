@@ -18,7 +18,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick }) => {
       <div className="absolute inset-0 bg-black/50 z-10"></div>
       
       <Image 
-        src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80"
+        src="/images/schoolentryway.jpg"
         alt="Modern school building"
         fill
         className="object-cover"
